@@ -1,8 +1,19 @@
 <?php
 
 /**
-* PHP Math Library
-*/
+ **********************************************
+ *    We do not handle all type of things     *
+ *    knowing that the one who will use       *
+ *    this script is a programmer and         *
+ *    has a bit knowledge of math             *
+ *    and uses it in a good way               *
+ **********************************************
+ */
+
+
+/**
+ * PHP Math Library
+ */
 class math
 {
 
@@ -47,6 +58,9 @@ class math
 
 	public static function AddMany($data) // add many in array
 	{
+		if (!is_array($data)) {
+			return 'Please Give an array of numbers';
+		}
 		$EndData = 0;
 		foreach ($data as $key => $value) {
 			$EndData += $value;
@@ -56,6 +70,9 @@ class math
 
 	public static function subtractMany($data) // subtract many in array
 	{
+		if (!is_array($data)) {
+			return 'Please Give an array of numbers';
+		}
 		$EndData = 0;
 		foreach ($data as $key => $value) {
 			$EndData -= $value;
@@ -65,6 +82,9 @@ class math
 
 	public static function multiplyMany($data) // multiply many in array
 	{
+		if (!is_array($data)) {
+			return 'Please Give an array of numbers';
+		}
 		$EndData = 1;
 		foreach ($data as $key => $value) {
 			$EndData *= $value;
@@ -74,12 +94,78 @@ class math
 
 	public static function divideMany($data) // divide many in array
 	{
+		if (!is_array($data)) {
+			return 'Please Give an array of numbers';
+		}
 		$EndData = 1;
 		foreach ($data as $key => $value) {
 			$EndData /= $value;
 		}
 		return $EndData;
 	}
+
+	public static function gcd($num1, $num2) // finding gcd of 2 numbers
+	{
+		while ($num2 != 0)
+		{
+			$m = $num1 % $num2;
+			$num1 = $num2;
+			$num2 = $m;
+		}
+		return abs($num1);
+	}
+
+	public static function gcdMany($numbers) // finding gcd of many munbers
+	{
+		if (!is_array($numbers)) {
+			return 'Please Give an array of numbers';
+		}
+		$gcd = self::gcd($numbers[0], $numbers[1]);
+		for ($i = 2; $i < count($numbers); $i++) {
+			$gcd = self::gcd($gcd, $numbers[$i]);
+		}
+		return abs($gcd);
+	}
+
+	// this 2 functions binomail() and binomailRecursive() is from
+	// https://github.com/powder96/numbers.php/blob/master/lib/NumbersPHP/Basic.php
+	// we just copy pasted it here
+	public static function binomial($n, $k)
+    {
+        $array = array();
+        return self::binomialRecursive($array, $n, $k);
+    }
+
+    private static function binomialRecursive(&$array, $n, $k)
+    {
+        if ($n >= 0 && $k == 0) {
+            return 1;
+        }
+        if ($n == 0 && $k > 0) {
+            return 0;
+        }
+        if (isset($array[$n]) && isset($array[$n][$k]) && $array[$n][$k] > 0) {
+            return $array[$n][$k];
+        }
+        if (!isset($array[$n])) {
+            $array[$n] = array();
+        }
+        $left = self::binomialRecursive($array, $n - 1, $k - 1);
+        $right = self::binomialRecursive($array, $n - 1, $k);
+        return $array[$n][$k] = $left + $right;
+    }
+
+    public static function lcm($num1, $num2) // lcm of 2 numbers
+    {
+        return (abs($num1 * $num2) / self::gcd($num1, $num2));
+    }
+
+    public static function lcmMany($numbers) // lcm of many numbers
+    {
+    	if (!is_array($number)) {
+    		return 'Please Give an array of numbers';
+    	}
+    }
 
 	public static function AreaOfCircleFromRadius($radius) // area of circle
 	{
@@ -364,8 +450,64 @@ class math
 			return false;
 		}
 	}
+
+	public static function FindMaxInArray($array) // finds the maximum number in a given array
+	{
+		if (!is_array($array)) {
+			return 'Please Give an array of numbers';
+		}
+		return max($array);
+	}
+
+	public static function FindMinInArray($array) // finds the minimum number in a given array
+	{
+		if (!is_array($array)) {
+			return 'Please Give an array of numbers';
+		}
+		return min($array);
+	}
+
+	public static function range($start = 0, $stop = null, $step = 1)
+    {
+        if ($stop === null) {
+            $stop = $start;
+        }
+        if ($stop < $start) {
+            $step = -abs($step);
+        }
+        $array = array();
+        $length = max(ceil(($stop - $start) / $step + 1), 0);
+        for ($i = 0; $i < $length; ++$i) {
+            $array[$i] = $start;
+            $start += $step;
+        }
+        $data = $array[0].',';
+        for ($i=1; $i < count($array)-2; $i++) { 
+        	$data .= $array[$i].',';
+        }
+        $data .= $array[count($array)-1];
+        return $data;
+    }
+
+    public static function isInt($number) // check if it is int
+    {
+        if (is_numeric($number)) {
+            return (int)$number == (float)$number;
+        } else {
+            return false;
+        }
+    }
+
+    public static function isInf($number) // check if it is infinite
+    {
+    	if (is_infinite($number))
+    	{
+    		return $number;
+    	} else {
+    		return false;
+    	}
+    }
 }
 
-echo math::power(5, 5.55);
 
 ?>
