@@ -255,26 +255,34 @@ class math
 	{
 		if ($num1 == 'find') {
 			return sqrt(pow($num2, 2) + pow($num3, 2));
-		} elseif ($num2 == 'find') {
+		} else if ($num2 == 'find') {
 			return sqrt(pow($num1, 2) - pow($num3, 2));
-		} elseif ($num3 == 'find') {
+		} else if ($num3 == 'find') {
 			return sqrt(pow($num2, 2) - pow($num2, 2));
+		} else {
+			if (sqrt(pow($num1, 2) != (sqrt(pow($num2, 2) + pow($num3, 2)))) {
+				return false;
+			} else {
+				return true;
+			}
 		}
 	}
 
 	public static function root($root) // square root
 	{
-		if ($root < 0) {
-			return NAN;
-		} else {
-			$x1 = (1/2) * (600.000 + ($root / 600.000));
-			$x2 = (1/2) * ($x1 + ($root / $x1));
-			while ($x1 != $x2) {
-				$x1 = (1/2) * ($x2 + ($root / $x2));
-				$x2 = (1/2) * ($x1 + ($root / $x1));
-			}
-			return $x2;
-		}
+		// this is the theory of how to find the square root but we  will use its build in function for speed
+		// if ($root < 0) {
+		// 	return NAN;
+		// } else {
+		// 	$x1 = (1/2) * (600.000 + ($root / 600.000));
+		// 	$x2 = (1/2) * ($x1 + ($root / $x1));
+		// 	while ($x1 != $x2) {
+		// 		$x1 = (1/2) * ($x2 + ($root / $x2));
+		// 		$x2 = (1/2) * ($x1 + ($root / $x1));
+		// 	}
+		// 	return $x2;
+		// }
+		return sqrt($root);
 	}
 
 	public static function power($base, $exp) // power
@@ -319,37 +327,141 @@ class math
 	public static function SinInDeg($ang) // sine in degree
 	{
 		$ang = $ang * pi() / 180;
-		return ($ang - (pow($ang, 3) / 6) + (pow($ang, 5) / 120) - (pow($ang, 7) / 5040));
+		// return ($ang - (pow($ang, 3) / 6) + (pow($ang, 5) / 120) - (pow($ang, 7) / 5040));
+		return sin($ang);
 	}
 
 	public static function CosInDeg($ang) // cosine in degree
 	{
 		$ang = $ang * pi() / 180;
-		return (1 - (pow($ang, 2) / 2) + (pow($ang, 4) / 24) - (pow($ang, 6) / 720));
+		// return (1 - (pow($ang, 2) / 2) + (pow($ang, 4) / 24) - (pow($ang, 6) / 720));
+		return cos($ang);
 	}
 
 	public static function TanInDeg($ang) // tangent in degree
 	{
 		$ang = $ang * pi() / 180;
-		return ($ang + (pow($ang, 3) / 3) + (2 * (pow($ang, 5)) / 15) + (17 * (pow($ang, 7)) / 315));
+		// return ($ang + (pow($ang, 3) / 3) + (2 * (pow($ang, 5)) / 15) + (17 * (pow($ang, 7)) / 315));
+		return tan($ang);
 	}
 
 	public static function SinInRad($ang) // sine in radians
 	{
-		$ang = $ang * pi() / 180;
-		return ($ang - (pow($ang, 3) / 6) + (pow($ang, 5) / 120) - (pow($ang, 7) / 5040));
+		// $ang = $ang * 180 / pi();
+		// return ($ang - (pow($ang, 3) / 6) + (pow($ang, 5) / 120) - (pow($ang, 7) / 5040));
+		return sin($ang);
 	}
 
 	public static function CosInRad($ang) // cosine in radians
 	{
-		$ang = $ang * pi() / 180;
-		return (1 - (pow($ang, 2) / 2) + (pow($ang, 4) / 24) - (pow($ang, 6) / 720));
+		// $ang = $ang * 180 / pi();
+		// return (1 - (pow($ang, 2) / 2) + (pow($ang, 4) / 24) - (pow($ang, 6) / 720));
+		return cos($ang);
 	}
 
 	public static function TanInRad($ang) // tangent in radians
 	{
+		// $ang = $ang * 180 / pi();
+		// return ($ang + (pow($ang, 3) / 3) + (2 * (pow($ang, 5)) / 15) + (17 * (pow($ang, 7)) / 315));
+		return tan($ang);
+	}
+
+	public static function SinhInDeg($ang) // hyperbolic sine in degree
+	{
 		$ang = $ang * pi() / 180;
-		return ($ang + (pow($ang, 3) / 3) + (2 * (pow($ang, 5)) / 15) + (17 * (pow($ang, 7)) / 315));
+		return sinh($ang);
+	}
+
+	public static function CoshInDeg($ang) // hyperbolic cosine in degree
+	{
+		$ang = $ang * pi() / 180;
+		return cosh($ang);
+	}
+
+	public static function TanhInDeg($ang) // hyperbolic tangent in degree
+	{
+		$ang = $ang * pi() / 180;
+		return tanh($ang);
+	}
+	public static function SinhInRad($ang) // hyperbolic sine in radians
+	{
+		return sinh($ang);
+	}
+
+	public static function CoshInRad($ang) // hyperbolic cosine in radians
+	{
+		return cosh($ang);
+	}
+
+	public static function TanhInRad($ang)  // hyperbolic tangent in radians
+	{
+		return tanh($ang);
+	}
+
+	public static function aSinInDeg($ang) // inverse sine in degree
+	{
+		$ang = $ang * pi() / 180;
+		return asin($ang);
+	}
+
+	public static function aCosInDeg($ang) // inverse cosine in degree
+	{
+		$ang = $ang * pi() / 180;
+		return acos($ang);
+	}
+
+	public static function aTanInDeg($ang) // inverse tangent in degree
+	{
+		$ang = $ang * pi() / 180;
+		return atan($ang);
+	}
+
+	public static function aSinInRad($ang) // inverse sine in radians
+	{
+		return asin($ang);
+	}
+
+	public static function aCosInRad($ang) // inverse cosine in radians
+	{
+		return acos($ang);
+	}
+
+	public static function aTanInRad($ang) // inverse tangent in radians
+	{
+		return atan($ang);
+	}
+
+	public static function aSinhInDeg($ang) // inverse hyperbolic sine in degree
+	{
+		$ang = $ang * pi() / 180;
+		return asinh($ang);
+	}
+
+	public static function aCoshInDeg($ang) // inverse hyperbolic cosine in degree
+	{
+		$ang = $ang * pi() / 180;
+		return acosh($ang);
+	}
+
+	public static function aTanhInDeg($ang) // inverse hyperbolic tangent in degree
+	{
+		$ang = $ang * pi() / 180;
+		return atanh($ang);
+	}
+
+	public static function aSinhInRad($ang) // inverse hyperbolic sine in radians
+	{
+		return asinh($ang);
+	}
+
+	public static function aCoshInRad($ang) // inverse hyperbolic cosine in radians
+	{
+		return acosh($ang);
+	}
+
+	public static function aTanhInRad($ang) // inverse hyperbolic tangent in radians
+	{
+		return atanh($ang);
 	}
 
 	public static function Rad2Deg($number) // radians to degree
@@ -481,12 +593,12 @@ class math
             $array[$i] = $start;
             $start += $step;
         }
-        $data = $array[0].',';
+        $data = '['.$array[0].',';
         for ($i=1; $i < count($array)-2; $i++) { 
         	$data .= $array[$i].',';
         }
         $data .= $array[count($array)-1];
-        return $data;
+        return $data.']';
     }
 
     public static function isInt($number) // check if it is int
@@ -507,7 +619,48 @@ class math
     		return false;
     	}
     }
-}
 
+    public static function IncreasingOrder($array) // order numbers in increasing order
+    {
+    	if (!is_array($array))
+    	{
+    		return 'Please Give an array of numbers';
+    	}
+    	$order = array();
+    	$count = count($array);
+    	for ($i=0; $i < $count; $i++) { 
+    		$min = array_search(min($array), $array);
+    		$order[] = $array[$min];
+    		unset($array[$min]);
+    	}
+    	$data = '['.$order[0].',';
+        for ($j=1; $j < $count-1; $j++) { 
+        	$data .= $order[$j].',';
+        }
+        $data .= $order[count($order)-1];
+        return $data.']';
+    }
+
+    public static function DecreasingOrder($array) // order numbers in decreasing order
+    {
+    	if (!is_array($array))
+    	{
+    		return 'Please Give an array of numbers';
+    	}
+    	$order = array();
+    	$count = count($array);
+    	for ($i=0; $i < $count; $i++) { 
+    		$max = array_search(max($array), $array);
+    		$order[] = $array[$max];
+    		unset($array[$max]);
+    	}
+    	$data = '['.$order[0].',';
+        for ($j=1; $j < $count-1; $j++) { 
+        	$data .= $order[$j].',';
+        }
+        $data .= $order[count($order)-1];
+        return $data.']';
+    }
+}
 
 ?>
