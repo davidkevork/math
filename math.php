@@ -10,7 +10,6 @@
  **********************************************
  */
 
-
 /**
  * PHP Math Library
  */
@@ -260,7 +259,7 @@ class math
 		} else if ($num3 == 'find') {
 			return sqrt(pow($num2, 2) - pow($num2, 2));
 		} else {
-			if (sqrt(pow($num1, 2) != (sqrt(pow($num2, 2) + pow($num3, 2)))) {
+			if (sqrt(pow($num1, 2)) != (sqrt(pow($num2, 2) + pow($num3, 2)))) {
 				return false;
 			} else {
 				return true;
@@ -516,7 +515,8 @@ class math
 
 	public static function exponent($r) // exponent
 	{
-		return (1 + $r + (pow($r, 2) / 2) + (pow($r, 3) / 6) + (pow($r, 4) / 24) + (pow($r, 5) / 120));
+		// return (1 + $r + (pow($r, 2) / 2) + (pow($r, 3) / 6) + (pow($r, 4) / 24) + (pow($r, 5) / 120));
+		return exp($r);
 	}
 
 	public static function is_leap($year) // returns true if it is leap year and false if not
@@ -661,6 +661,95 @@ class math
         $data .= $order[count($order)-1];
         return $data.']';
     }
+
+    public static function log($a) // calculate logarithm to eumuls number
+    {
+    	return log($a);
+    }
+
+    public static function log10($a) // calculate logarithm to base 10
+    {
+    	return log10($a);
+    }
+
+    public static function log1p($a) // calculate logarithm to eumuls number with plus 1
+    {
+    	return log1p($a);
+    }
+
+    public static function CalculateVectorRecursive($vector) // Recursive Vector Calculator use CalculateVector(); instead
+    {
+    	$vector = strtoupper(trim($vector));
+    	$vector = preg_replace('/\s+/', '', $vector);
+    	$imploded1 = explode("+", $vector);
+    	foreach ($imploded1 as $key => $value) {
+    		if (preg_match("/(-)/", $value)) {
+    			$imploded2 = explode("-", $value);
+    			if (!empty($imploded2[0])) {
+    				$imploded1[] = $imploded2[0];
+    			}
+    			for ($i=1; $i < sizeof($imploded2); $i++) { 
+    				$imploded1[] = strrev($imploded2[$i]);
+    			}
+    			unset($imploded1[$key]);
+    		}
+    	}
+    	foreach ($imploded1 as $key1 => $value1) {
+    		$MyVectors[] = $value1;
+    	}
+    	$size = sizeof($MyVectors);
+    	for ($i=0; $i < $size; $i++) {
+    		for ($j=0; $j < $size; $j++) { 
+    			if (substr($MyVectors[$i], -1) == substr($MyVectors[$j], -strlen($MyVectors[$j]), 1))
+	    		{
+	    			$MyNewVectors[] = substr($MyVectors[$i], 0, -1).substr($MyVectors[$j], 1);
+	    			unset($MyVectors[$i]);
+	    			unset($MyVectors[$j]);
+	    			$MyVectors[$i] = '';
+	    			$MyVectors[$j] = '';
+	    			break;
+	    		}
+    		}
+    	}
+    	foreach ($MyVectors as $key2 => $value2) {
+    		if (!empty(trim($value2))) {
+    			$MyNewVectors[] = $value2;
+    		}
+    	}
+    	$AllVectors = array();
+    	foreach ($MyNewVectors as $key3 => $value3) {
+    		if (!empty(trim($value3))) {
+    			$AllVectors[] = $value3;
+    		}
+    	}
+    	if (sizeof($AllVectors) == 1) {
+    		$output = $AllVectors[0];
+    	} else if (sizeof($AllVectors) == 2) {
+    		$output = $AllVectors[0]."+".$AllVectors[1];
+    	} else {
+	    	$output = $AllVectors[0]."+";
+	    	for ($k=1; $k < sizeof($AllVectors)-1; $k++) { 
+	    		$output .= $AllVectors[$k]."+";
+	    	}
+	    	$output .= $AllVectors[sizeof($AllVectors)-1];
+    	}
+    	return $output;
+    }
+
+    public static function CalculateVector($data) // calculates vector such as AB+BC+CD = AD
+    {
+    	$result0 = self::CalculateVectorRecursive(trim($data));
+    	$result1 = self::CalculateVectorRecursive(trim($result0));
+    	while ($result0 != $result1) {
+    		$result0 = self::CalculateVectorRecursive(trim($result1));
+    		$result1 = self::CalculateVectorRecursive(trim($result0));
+    	}
+    	return $result1;
+    }
 }
+
+
+echo math::CalculateVector('AB+BC-DC'); // this will be AB+BC+CD and then it will be AD since AB+BC=AC and then AC+CD=AD 
+
 
 ?>
