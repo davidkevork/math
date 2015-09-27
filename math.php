@@ -2,11 +2,11 @@
 
 /**
  **********************************************
- *	We do not handle all type of things	 *
- *	knowing that the one who will use	   *
- *	this script is a programmer and		 *
- *	has a bit knowledge of math			 *
- *	and uses it in a good way			   *
+ *	We do not handle all type of things		  *
+ *	knowing that the one who will use		  *
+ *	this script is a programmer and		 	  *
+ *	has a bit knowledge of math			      *
+ *	and uses it in a good way				  *
  **********************************************
  */
 
@@ -164,6 +164,11 @@ class math
 		if (!is_array($number)) {
 			return 'Please Give an array of numbers';
 		}
+		$lcm = self::lcm($numbers[0], $numbers[1]);
+		for ($i = 2; $i < count($numbers); $i++) {
+			$lcm = self::lcm($lcm, $numbers[$i]);
+		}
+		return abs($lcm);
 	}
 
 	public static function AreaOfCircleFromRadius($radius) // area of circle
@@ -232,7 +237,7 @@ class math
 		return $data;
 	}
 
-	public static function rectangle($w, $h)
+	public static function AreaOfRectangle($w, $h)
 	{
 		$area = $h * $w;
 		$perimeter = 2 * ($h + $w);
@@ -678,124 +683,63 @@ class math
 	}
 
 	public static function CalculateVectorRecursive($vector) // Recursive Vector Calculator use CalculateVector(); instead
-	{
-		$MyVectors = $MyVectorsNumbers = $MyVectorsOld = $MyVectorsOldNumbers = $MyNewVectorsNumbers = $MyNewVectors = $MyNewNewVectors = $MyNewNewVectorsNumber = $FinalVectors = $FinalVectorsNumbers = array();
-		$vector = strtoupper(trim($vector));
-		$vector = preg_replace('/\s+/', '', $vector);
-		if (sizeof(explode("+", $vector)) < 2 && sizeof(explode("-", $vector)) < 2 && (sizeof(explode("+", $vector)) + sizeof(explode("-", $vector))) < 2) {
-			return $vector;
-		}
-		$imploded1 = explode("+", $vector);
-		foreach ($imploded1 as $key => $value) {
-			if (preg_match("/(-)/", $value)) {
-				$imploded2 = explode("-", $value);
-				if (!empty($imploded2[0])) {
-					$imploded1[] = $imploded2[0];
-				}
-				for ($i=1; $i < sizeof($imploded2); $i++) { 
-					$imploded1[] = strrev($imploded2[$i]);
-				}
-				unset($imploded1[$key]);
-			}
-		}
-		foreach ($imploded1 as $key1 => $value1) {
-			$MyVectorsOld[] = $value1;
-		}
-		foreach ($MyVectorsOld as $MyVectorsOldkey => $MyVectorsOldvalue) {
-			preg_match("/[(0-9)]/", $MyVectorsOldvalue, $MyVectorsOldNumbers);
-			if (!isset($MyVectorsOldNumbers[0])) {
-				$MyVectorsOldNumbers[0] = 1;
-			}
-			$MyVectorsOldAlphabet = str_replace($MyVectorsOldNumbers[0], "", $MyVectorsOldvalue);
-			if ($MyVectorsOldNumbers[0] == 0) {
-				continue;
-			}
-			$MyVectorsNumbers[$MyVectorsOldkey] = $MyVectorsOldNumbers[0];
-			$MyVectors[$MyVectorsOldkey] = $MyVectorsOldAlphabet;
-		}
-		$size = sizeof($MyVectors);
-		for ($i=0; $i < $size; $i++) {
-			for ($j=0; $j < $size; $j++) {
-				if ($i == $j) {
-					continue;
-				}
-				if (substr($MyVectors[$i], -1) == substr($MyVectors[$j], -strlen($MyVectors[$j]), 1))
-				{
-					if ($MyVectorsNumbers[$i] == $MyVectorsNumbers[$j]) {
-						$MyNewVectors[] = substr($MyVectors[$i], 0, -1).substr($MyVectors[$j], 1);
-						$MyNewVectorsNumbers[] = $MyVectorsNumbers[$i];
-					} else if ($MyVectorsNumbers[$i] > $MyVectorsNumbers[$j]) {
-						$MyNewVectors[] = substr($MyVectors[$i], 0, -1).substr($MyVectors[$j], 1);
-						$MyNewVectorsNumbers[] = $MyVectorsNumbers[$j];
-						$MyNewVectors[] = $MyVectors[$i];
-						$MyNewVectorsNumbers[] = $MyVectorsNumbers[$i] - $MyVectorsNumbers[$j];
-					} else if ($MyVectorsNumbers[$i] < $MyVectorsNumbers[$j]) {
-						$MyNewVectors[] = substr($MyVectors[$i], 0, -1).substr($MyVectors[$j], 1);
-						$MyNewVectorsNumbers[] = $MyVectorsNumbers[$i];
-						$MyNewVectors[] = $MyVectors[$j];
-						$MyNewVectorsNumbers[] = $MyVectorsNumbers[$j] - $MyVectorsNumbers[$i];
-					}
-					unset($MyVectors[$i]);
-					unset($MyVectors[$j]);
-					$MyVectors[$i] = '';
-					$MyVectors[$j] = '';
-					unset($MyVectorsNumbers[$i]);
-					unset($MyVectorsNumbers[$j]);
-					$MyVectorsNumbers[$i] = '';
-					$MyVectorsNumbers[$j] = '';
-				}
-			}
-		}
-		foreach ($MyVectors as $MyVectorskey2 => $MyVectorsvalue2) {
-			if (!empty(trim($MyVectorsvalue2))) {
-				$MyNewNewVectors[] = $MyVectorsvalue2;
-			}
-		}
-		foreach ($MyNewVectors as $MyNewVectorskey2 => $MyNewVectorsvalue2) {
-			if (!empty(trim($MyNewVectorsvalue2))) {
-				$MyNewNewVectors[] = $MyNewVectorsvalue2;
-			}
-		}
-		foreach ($MyNewVectorsNumbers as $MyNewVectorsNumberskey3 => $MyNewVectorsNumbersvalue3) {
-			if (!empty(trim($MyNewVectorsNumbersvalue3))) {
-				$MyNewNewVectorsNumber[] = $MyNewVectorsNumbersvalue3;
-			}
-		}
-		foreach ($MyVectorsNumbers as $MyVectorsNumberskey3 => $MyVectorsNumbersvalue3) {
-			if (!empty(trim($MyVectorsNumbersvalue3))) {
-				$MyNewNewVectorsNumber[] = $MyVectorsNumbersvalue3;
-			}
-		}
-		foreach ($MyNewNewVectors as $MyNewNewVectorskey => $MyNewNewVectorsvalue) {
-			if (!(substr($MyNewNewVectorsvalue, -1) == substr($MyNewNewVectorsvalue, -strlen($MyNewNewVectorsvalue), 1))) {
-				$FinalVectors[] = $MyNewNewVectorsvalue;
-				$FinalVectorsNumbers[] = $MyNewNewVectorsNumber[$MyNewNewVectorskey];
-			}
-		}
-		$AllVectors = array();
-		foreach ($FinalVectors as $key4 => $value4) {
-			if (!empty(trim($value4))) {
-				if (!isset($FinalVectorsNumbers[$key4])) {
-					$number4 = 1;
-				} else {
-					$number4 = $FinalVectorsNumbers[$key4];
-				}
-				$AllVectors[] = $number4.$value4;
-			}
-		}
-		if (sizeof($AllVectors) == 1) {
-			$output = $AllVectors[0];
-		} else if (sizeof($AllVectors) == 2) {
-			$output = $AllVectors[0]."+".$AllVectors[1];
-		} else {
-			$output = $AllVectors[0]."+";
-			for ($k=1; $k < sizeof($AllVectors)-1; $k++) { 
-				$output .= $AllVectors[$k]."+";
-			}
-			$output .= $AllVectors[sizeof($AllVectors)-1];
-		}
-		return $output;
-	}
+    {
+    	$vector = strtoupper(trim($vector));
+    	$vector = preg_replace('/\s+/', '', $vector);
+    	$imploded1 = explode("+", $vector);
+    	foreach ($imploded1 as $key => $value) {
+    		if (preg_match("/(-)/", $value)) {
+    			$imploded2 = explode("-", $value);
+    			if (!empty($imploded2[0])) {
+    				$imploded1[] = $imploded2[0];
+    			}
+    			for ($i=1; $i < sizeof($imploded2); $i++) { 
+    				$imploded1[] = strrev($imploded2[$i]);
+    			}
+    			unset($imploded1[$key]);
+    		}
+    	}
+    	foreach ($imploded1 as $key1 => $value1) {
+    		$MyVectors[] = $value1;
+    	}
+    	$size = sizeof($MyVectors);
+    	for ($i=0; $i < $size; $i++) {
+    		for ($j=0; $j < $size; $j++) { 
+    			if (substr($MyVectors[$i], -1) == substr($MyVectors[$j], -strlen($MyVectors[$j]), 1))
+	    		{
+	    			$MyNewVectors[] = substr($MyVectors[$i], 0, -1).substr($MyVectors[$j], 1);
+	    			unset($MyVectors[$i]);
+	    			unset($MyVectors[$j]);
+	    			$MyVectors[$i] = '';
+	    			$MyVectors[$j] = '';
+	    			break;
+	    		}
+    		}
+    	}
+    	foreach ($MyVectors as $key2 => $value2) {
+    		if (!empty(trim($value2))) {
+    			$MyNewVectors[] = $value2;
+    		}
+    	}
+    	$AllVectors = array();
+    	foreach ($MyNewVectors as $key3 => $value3) {
+    		if (!empty(trim($value3))) {
+    			$AllVectors[] = $value3;
+    		}
+    	}
+    	if (sizeof($AllVectors) == 1) {
+    		$output = $AllVectors[0];
+    	} else if (sizeof($AllVectors) == 2) {
+    		$output = $AllVectors[0]."+".$AllVectors[1];
+    	} else {
+	    	$output = $AllVectors[0]."+";
+	    	for ($k=1; $k < sizeof($AllVectors)-1; $k++) { 
+	    		$output .= $AllVectors[$k]."+";
+	    	}
+	    	$output .= $AllVectors[sizeof($AllVectors)-1];
+    	}
+    	return $output;
+    }
 
 	public static function CalculateVector($data) // calculates vector such as AB+BC+CD = AD
 	{
@@ -810,7 +754,7 @@ class math
 }
 
 
-echo math::CalculateVector('2AB+2CD+2DE+2BF-2AD');
+echo math::CalculateVector('Ab+BC-DC');
 
 
 
